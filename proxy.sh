@@ -7,8 +7,8 @@ DIR="/tmp/action-google-cloud-sql-proxy"
 IMAGE="gcr.io/cloudsql-docker/gce-proxy:${1}"
 
 # start container
-  # --detach \
 docker run \
+  --detach \
   --net host \
   --restart on-failure \
   --name cloud-sql-proxy \
