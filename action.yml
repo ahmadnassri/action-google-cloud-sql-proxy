@@ -1,0 +1,38 @@
+name: Google Cloud SQL Proxy
+description: run the Google Cloud SQL Proxy in a GitHub Action's context
+
+branding:
+  icon: package
+  color: red
+
+inputs:
+  key:
+    description: Service Account JSON Key
+    required: true
+
+  connection:
+    description: CloudSQL connection name
+    required: true
+
+  port:
+    description: Listening port
+    required: true
+
+  version:
+    description: CloudSQL Proxy Version
+    required: false
+    default: 1.19.1-alpine
+
+runs:
+  using: composite
+  steps:
+    - name: "sql-proxy: create working directory"
+      run: mkdir /tmp/action-google-cloud-sql-proxy
+
+    - name: "sql-proxy: write key to file"
+      run: echo '${{ inputs.key }}' > /tmp/action-google-cloud-sql-proxy/key.json
+      shell: bash
+
+    - name: "sql-proxy: start container"
+      run: ${{ github.action_path }}/proxy.sh ${{ inputs.version }} ${{ inputs.port }} ${{ inputs.connection }}
+      shell: bash
