@@ -28,6 +28,7 @@ runs:
   steps:
     - name: "sql-proxy: create working directory"
       run: mkdir /tmp/action-google-cloud-sql-proxy
+      shell: bash
 
     - name: "sql-proxy: write key to file"
       run: echo '${{ inputs.key }}' > /tmp/action-google-cloud-sql-proxy/key.json
