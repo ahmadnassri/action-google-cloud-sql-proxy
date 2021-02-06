@@ -27,6 +27,8 @@ jobs:
 | input      | required | default         | description                                                        |
 | ---------- | -------- | --------------- | ------------------------------------------------------------------ |
 | key        | ✔️       | `-`             | Service Account JSON Key                                           |
-| connection | ✔️       | `-`             | CloudSQL connection name                                           |
+| connection | ✔️       | `-`             | Cloud SQL connection name                                          |
 | port       | ✔️       | `-`             | _Listening port (MySQL: 3306, PostgreSQL: 5432, SQL Server: 1433)_ |
-| version    | ❌        | `1.19.1-alpine` | CloudSQL Proxy Version                                             |
+| version    | ❌        | `1.19.1-alpine` | Cloud SQL Proxy [Version][version]                                 |
+
+[version]: https://github.com/GoogleCloudPlatform/cloudsql-proxy/releases
