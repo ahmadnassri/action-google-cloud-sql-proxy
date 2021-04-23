@@ -21,7 +21,7 @@ inputs:
   version:
     description: CloudSQL Proxy Version
     required: false
-    default: 1.19.1-alpine
+    default: 1.22.0-alpine
 
   sleep:
     description: time between connection checks
