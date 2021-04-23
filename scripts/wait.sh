@@ -2,9 +2,9 @@
 set -euo pipefail
 
 READY=0
-PORT="${2}"
-SLEEP="${3}"
-ATTEMPTS="${4}"
+PORT="${1}"
+SLEEP="${2}"
+ATTEMPTS="${3}"
 
 for ATTEMPT in {1..10}; do
   echo "connection attempt $ATTEMPT/$ATTEMPTS"
