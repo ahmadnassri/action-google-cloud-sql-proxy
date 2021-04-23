@@ -9,7 +9,7 @@ ATTEMPTS="${4}"
 for ATTEMPT in {1..10}; do
   echo "connection attempt $ATTEMPT/$ATTEMPTS"
 
-  READY=$(bash -c 'exec 3<> /dev/tcp/127.0.0.1/${PORT};echo $?' 2>/dev/null)
+  READY=$(bash -c 'exec 3<> /dev/tcp/127.0.0.1/'"${PORT}"';echo $?' 2>/dev/null)
 
   if [[ $READY -eq 0 ]]; then
     echo "connection ready"
@@ -18,5 +18,5 @@ for ATTEMPT in {1..10}; do
 
   echo "connection not available, sleeping for ${SLEEP} seconds"
 
-  sleep ${SLEEP}
+  sleep "${SLEEP}"
 done
