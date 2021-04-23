@@ -33,12 +33,16 @@ jobs:
 
 ### Inputs
 
-| input      | required | default         | description                                                                               |
-|------------|----------|-----------------|-------------------------------------------------------------------------------------------|
-| key        | ✔️       | `-`             | Service Account JSON Key                                                                  |
-| connection | ✔️       | `-`             | Cloud SQL connection name                                                                 |
-| port       | ✔️       | `-`             | *Listening port (MySQL: 3306, PostgreSQL: 5432, SQL Server: 1433)*                        |
-| version    | ❌        | `1.19.1-alpine` | Cloud SQL Proxy [Version](https://github.com/GoogleCloudPlatform/cloudsql-proxy/releases) |
+| input      | required | default         | description                                                        |
+|------------|----------|-----------------|--------------------------------------------------------------------|
+| key        | ✓        | `-`             | Service Account JSON Key                                           |
+| connection | ✓        | `-`             | Cloud SQL connection name                                          |
+| port       | ✓        | `-`             | *Listening port (MySQL: 3306, PostgreSQL: 5432, SQL Server: 1433)* |
+| version    | ✗        | `1.22.0-alpine` | Cloud SQL Proxy [Version][]                                        |
+| sleep      | ✗        | `3`             | time between connection checks                                     |
+| attempts   | ✗        | `10`            | number of total connection checks                                  |
+
+  [Version]: https://github.com/GoogleCloudPlatform/cloudsql-proxy/releases
 
 ----
 > Author: [Ahmad Nassri](https://www.ahmadnassri.com/) &bull;

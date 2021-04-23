@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   # ---- super-linter ---- #
-  lint:
+  super-linter:
     image: github/super-linter:v3
     volumes:
       - ./:/tmp/lint
@@ -10,6 +10,8 @@ services:
       RUN_LOCAL: 'true'
       LOG_LEVEL: 'ERROR'
       MULTI_STATUS: 'false'
+      VALIDATE_SHELL_SHFMT: 'false'
+      VALIDATE_JSCPD: 'false'
 
   # ---- readme generator ---- #
   readme:
@@ -24,4 +26,5 @@ services:
       --to=gfm
       --fail-if-warnings
       --wrap=preserve
+      --reference-links
       docs/README.md
