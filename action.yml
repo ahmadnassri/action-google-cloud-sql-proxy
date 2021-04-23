@@ -23,6 +23,16 @@ inputs:
     required: false
     default: 1.19.1-alpine
 
+  sleep:
+    description: time between connection checks
+    required: false
+    default: 3
+
+  attempts:
+    description: number of total connection checks
+    required: false
+    default: 10
+
 runs:
   using: composite
   steps:
@@ -35,5 +45,9 @@ runs:
       shell: bash
 
     - name: "sql-proxy: start container"
-      run: ${{ github.action_path }}/proxy.sh ${{ inputs.version }} ${{ inputs.port }} ${{ inputs.connection }}
+      run: ${{ github.action_path }}/scripts/proxy.sh ${{ inputs.version }} ${{ inputs.port }} ${{ inputs.connection }}
+      shell: bash
+
+    - name: "sql-proxy: wait for connection"
+      run: ${{ github.action_path }}/scripts/wait.sh ${{ inputs.port }} ${{ inputs.sleep }} ${{ inputs.attempts }}
       shell: bash
