@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
 
     # only run for dependabot PRs
-    if: github.actor == 'dependabot[bot]'
+    if: ${{ github.actor == 'dependabot[bot]' }}
 
     steps:
       - uses: ahmadnassri/action-dependabot-auto-merge@v2.4
