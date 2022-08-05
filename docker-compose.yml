@@ -2,26 +2,23 @@
 # Note: this file originates in template-action-composite #
 # ------------------------------------------------------- #
 
-version: '3.8'
-
 services:
   # ---- super-linter ---- #
   lint:
     image: github/super-linter:slim-v4
     volumes:
-      - ./:/github/workspace
+      - ./:/workspace
     environment:
-      RUN_LOCAL: 'true'
       LOG_LEVEL: 'ERROR'
+      RUN_LOCAL: 'true'
       MULTI_STATUS: 'false'
-      VALIDATE_JSCPD: 'false'
       IGNORE_GITIGNORED_FILES: 'true'
-      DEFAULT_WORKSPACE: /github/workspace
-      FILTER_REGEX_EXCLUDE: '/github/workspace/README.md'
+      DEFAULT_WORKSPACE: /workspace
+      FILTER_REGEX_EXCLUDE: '/workspace/README.md'
 
   # ---- readme generator ---- #
   readme:
-    image: pandoc/core:2.13
+    image: pandoc/minimal:2.18.0
     volumes:
       - ./:/data
     command: --defaults=.pandoc.yml
