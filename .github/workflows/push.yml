@@ -1,8 +1,10 @@
-# --------------------------------------------------------------------- #
-# Note: this file is automatically managed in template-action-composite #
-# --------------------------------------------------------------------- #
+# ------------------------------------------------------- #
+# Note: this file originates in template-action-composite #
+# ------------------------------------------------------- #
 
-on: push
+on:
+  - push
+  - workflow_dispatch
 
 name: push
 
@@ -14,7 +16,7 @@ jobs:
       repository: ${{ steps.metadata.outputs.repository }}
 
     steps:
-      - uses: actions/checkout@v2.3.4
+      - uses: actions/checkout@v3.0.2
 
       - uses: ahmadnassri/action-metadata@v1
         id: metadata
@@ -25,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3.0.2
 
       - uses: ahmadnassri/action-commit-lint@v1
         with:
@@ -37,51 +39,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3.0.2
         with:
           fetch-depth: 0
 
-      - uses: github/super-linter@v4.0.2
+      - uses: github/super-linter/slim@v4
         env:
           LOG_LEVEL: ERROR
-          VALIDATE_ALL_CODEBASE: false
+          VALIDATE_ALL_CODEBASE: 'false'
+          IGNORE_GITIGNORED_FILES: 'true'
           FILTER_REGEX_EXCLUDE: '/github/workspace/README.md|test/fixtures/*'
           GITHUB_TOKEN: ${{ github.token }}
 
-  template-sync:
-    timeout-minutes: 20
-
-    needs:
-      - metadata
-      - commit-lint
-      - super-linter
-
-    # only runs on main branch and only for the template
-    if: github.ref == 'refs/heads/master' &&
-        fromJSON(needs.metadata.outputs.repository).is_template
-
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: ahmadnassri/action-workflow-queue@v1.1
-
-      - uses: actions/checkout@v2
-
-      - uses: ahmadnassri/action-template-repository-sync@v1.6.0
-        with:
-          github-token: ${{ secrets.GH_TOKEN }}
-
   release:
+    timeout-minutes: 5
+
     needs:
       - metadata
       - commit-lint
       - super-linter
 
     # only runs on main branch for non template repos
-    if: github.ref == 'refs/heads/master' &&
-        !fromJSON(needs.metadata.outputs.repository).is_template
-
-    timeout-minutes: 10
+    if: ${{ github.ref == 'refs/heads/master' && !fromJSON(needs.metadata.outputs.repository).is_template }}
 
     runs-on: ubuntu-latest
 
@@ -92,9 +71,9 @@ jobs:
       release-version-minor: ${{ steps.release.outputs.release-version-minor }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3.0.2
       - id: release
-        uses: ahmadnassri/action-semantic-release@v1
+        uses: ahmadnassri/action-semantic-release@v2
         with:
           config: ${{ github.workspace }}/.semantic.json
         env:
@@ -103,7 +82,7 @@ jobs:
   alias:
     needs: release
 
-    if: needs.release.outputs.published == 'true'
+    if: ${{ needs.release.outputs.published == 'true' }}
 
     runs-on: ubuntu-latest
     strategy:
@@ -113,9 +92,31 @@ jobs:
           - version: v${{ needs.release.outputs.release-version-major }}.${{ needs.release.outputs.release-version-minor }}
 
     steps:
-      - uses: actions/github-script@v3
+      - uses: actions/github-script@v6
         with:
           script: |
             const tag = 'tags/${{ matrix.alias.version }}'
             await github.git.deleteRef({ ...context.repo, ref: tag }).catch(() => {})
             await github.git.createRef({ ...context.repo, ref: `refs/${tag}` , sha: process.env.GITHUB_SHA })
+
+  template-sync:
+    timeout-minutes: 20
+
+    needs:
+      - metadata
+      - commit-lint
+      - super-linter
+
+    # only runs on main branch and only for the template
+    if: ${{ github.ref == 'refs/heads/master' && fromJSON(needs.metadata.outputs.repository).is_template }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: ahmadnassri/action-workflow-queue@v1.1
+
+      - uses: actions/checkout@v3.0.2
+
+      - uses: ahmadnassri/action-template-repository-sync@v1.6.0
+        with:
+          github-token: ${{ secrets.GH_TOKEN }}
