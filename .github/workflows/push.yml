@@ -20,7 +20,7 @@ jobs:
       repository_default_branch: ${{ steps.metadata.outputs.repository_default_branch }}
 
     steps:
-      - uses: actions/checkout@v3.0.2
+      - uses: actions/checkout@v3.1.0
 
       - uses: ahmadnassri/action-metadata@v2.1.2
         id: metadata
@@ -31,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3.0.2
+      - uses: actions/checkout@v3.1.0
 
       - uses: ahmadnassri/action-commit-lint@v2
         with:
@@ -43,9 +43,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3.0.2
+      - uses: actions/checkout@v3.1.0
 
-      - uses: oxsecurity/megalinter/flavors/documentation@v6.9.1
+      - uses: oxsecurity/megalinter/flavors/documentation@v6.12.0
         env:
           GITHUB_TOKEN: ${{ github.token }}
           MEGALINTER_CONFIG: .github/linters/.mega-linter.yml
@@ -82,7 +82,7 @@ jobs:
       release-version-minor: ${{ steps.release.outputs.release-version-minor }}
 
     steps:
-      - uses: actions/checkout@v3.0.2
+      - uses: actions/checkout@v3.1.0
       - id: release
         uses: ahmadnassri/action-semantic-release@v2.1.10
         with:
@@ -126,7 +126,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3.0.2
+      - uses: actions/checkout@v3.1.0
 
       - uses: ahmadnassri/action-template-repository-sync@v2
         with:
