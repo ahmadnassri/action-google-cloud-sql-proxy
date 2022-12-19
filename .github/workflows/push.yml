@@ -33,7 +33,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3.1.0
 
-      - uses: ahmadnassri/action-commit-lint@v2
+      - uses: ahmadnassri/action-commit-lint@v2.0.4
         with:
           config: .github/linters/.commit-lint.yml
 
@@ -45,7 +45,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3.1.0
 
-      - uses: oxsecurity/megalinter/flavors/documentation@v6.14.0
+      - uses: oxsecurity/megalinter/flavors/documentation@v6.15.0
         env:
           GITHUB_TOKEN: ${{ github.token }}
           MEGALINTER_CONFIG: .github/linters/.mega-linter.yml
@@ -84,7 +84,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3.1.0
       - id: release
-        uses: ahmadnassri/action-semantic-release@v2.1.10
+        uses: ahmadnassri/action-semantic-release@v2.1.11
         with:
           config: ${{ github.workspace }}/.semantic.json
         env:
@@ -128,6 +128,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3.1.0
 
-      - uses: ahmadnassri/action-template-repository-sync@v2
+      - uses: ahmadnassri/action-template-repository-sync@v2.3.0
         with:
           github-token: ${{ secrets.GH_TOKEN }}
