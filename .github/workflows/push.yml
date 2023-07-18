@@ -63,7 +63,6 @@ jobs:
           - version: v${{ needs.release.outputs.release-version-major }}
           - version: v${{ needs.release.outputs.release-version-major }}.${{ needs.release.outputs.release-version-minor }}
 
-    steps:
-      - uses: ahmadnassri/actions/.github/workflows/alias-tag.yml@master
-        with:
-          name: ${{ matrix.alias.version }}
+    uses: ahmadnassri/actions/.github/workflows/alias-tag.yml@master
+    with:
+      name: ${{ matrix.alias.version }}
