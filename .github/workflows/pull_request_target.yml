@@ -1,6 +1,6 @@
-# ----------------------------------------------- #
-# Note: this file originates in template-template #
-# ----------------------------------------------- #
+# ------------------------------------------------------- #
+# Note: this file originates in template-action-composite #
+# ------------------------------------------------------- #
 
 name: pull_request_target
 
@@ -14,15 +14,6 @@ permissions: read-all
 jobs:
   metadata:
     uses: ahmadnassri/actions/.github/workflows/metadata.yml@master
-
-  template-sync:
-    needs: metadata
-    secrets: inherit
-
-    uses: ahmadnassri/actions/.github/workflows/template-sync.yml@master
-    with:
-      repository_is_template: ${{ needs.metadata.outputs.repository_is_template }}
-      repository_default_branch: ${{ needs.metadata.outputs.repository_default_branch }}
 
   auto-merge:
     needs: template-sync

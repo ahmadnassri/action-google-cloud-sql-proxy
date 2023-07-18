@@ -2,11 +2,11 @@
 # Note: this file originates in template-action-composite #
 # ------------------------------------------------------- #
 
+name: push
+
 on:
   - push
   - workflow_dispatch
-
-name: push
 
 concurrency:
   group: ${{ github.ref }}-${{ github.workflow }}
@@ -15,52 +15,18 @@ permissions: read-all
 
 jobs:
   metadata:
-    runs-on: ubuntu-latest
+    uses: ahmadnassri/actions/.github/workflows/metadata.yml@master
 
-    outputs:
-      repository_is_template: ${{ steps.metadata.outputs.repository_is_template }}
-      repository_default_branch: ${{ steps.metadata.outputs.repository_default_branch }}
+  lint-commits:
+    uses: ahmadnassri/actions/.github/workflows/lint-commits.yml@master
 
-    steps:
-      - uses: actions/checkout@v3.5.3
+  lint-content:
+    uses: ahmadnassri/actions/.github/workflows/lint-documentation.yml@master
 
-      - uses: ahmadnassri/action-metadata@v2.1.2
-        id: metadata
-
-  commit-lint:
-    timeout-minutes: 5
-
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3.5.3
-
-      - uses: ahmadnassri/action-commit-lint@v2.1.9
-        with:
-          config: .github/linters/.commit-lint.yml
-
-  mega-linter:
-    timeout-minutes: 5
-
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3.5.3
-
-      - uses: oxsecurity/megalinter/flavors/documentation@v7.1.0
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-          MEGALINTER_CONFIG: .github/linters/.mega-linter.yml
-          GITHUB_COMMENT_REPORTER: true
-          GITHUB_STATUS_REPORTER: true
-
-      - uses: actions/upload-artifact@v3
-        if: ${{ success() }} || ${{ failure() }}
-        with:
-          name: mega-linter-reports
-          path: |
-            megalinter-reports
-            mega-linter.log
+    permissions:
+      contents: write
+      statuses: write
+      pull-requests: write
 
   release:
     timeout-minutes: 5
@@ -75,26 +41,11 @@ jobs:
       needs.metadata.outputs.repository_is_template == 'false' &&
       needs.metadata.outputs.repository_default_branch == github.ref_name
 
-    runs-on: ubuntu-latest
-
     permissions:
       contents: write
       packages: write
 
-    outputs:
-      published: ${{ steps.release.outputs.published }}
-      release-version: ${{ steps.release.outputs.release-version }}
-      release-version-major: ${{ steps.release.outputs.release-version-major }}
-      release-version-minor: ${{ steps.release.outputs.release-version-minor }}
-
-    steps:
-      - uses: actions/checkout@v3.5.3
-      - id: release
-        uses: ahmadnassri/action-semantic-release@v2.2.3
-        with:
-          config: ${{ github.workspace }}/.semantic.json
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
+    uses: ahmadnassri/actions/.github/workflows/lint-documentation.yml@master
 
   alias:
     needs: release
@@ -113,31 +64,6 @@ jobs:
           - version: v${{ needs.release.outputs.release-version-major }}.${{ needs.release.outputs.release-version-minor }}
 
     steps:
-      - uses: actions/github-script@v6
+      - uses: ahmadnassri/actions/.github/workflows/alias-tag.yml@master
         with:
-          script: |
-            const tag = 'tags/${{ matrix.alias.version }}'
-            await github.rest.git.deleteRef({ ...context.repo, ref: tag }).catch(() => {})
-            await github.rest.git.createRef({ ...context.repo, ref: `refs/${tag}` , sha: process.env.GITHUB_SHA })
-
-  template-sync:
-    timeout-minutes: 20
-
-    needs:
-      - metadata
-      - commit-lint
-      - mega-linter
-
-    # only runs on main branch for template repos
-    if: |
-      needs.metadata.outputs.repository_is_template == 'true' &&
-      needs.metadata.outputs.repository_default_branch == github.ref_name
-
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3.5.3
-
-      - uses: ahmadnassri/action-template-repository-sync@v2.3.4
-        with:
-          github-token: ${{ secrets.GH_TOKEN }}
+          name: ${{ matrix.alias.version }}
