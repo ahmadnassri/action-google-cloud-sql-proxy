@@ -43,7 +43,7 @@ jobs:
       contents: write
       packages: write
 
-    uses: ahmadnassri/actions/.github/workflows/lint-documentation.yml@master
+    uses: ahmadnassri/actions/.github/workflows/semantic-release.yml@master
 
   alias:
     needs: release
