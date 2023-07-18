@@ -31,8 +31,8 @@ jobs:
   release:
     needs:
       - metadata
-      - commit-lint
-      - mega-linter
+      - lint-commits
+      - lint-content
 
     # only runs on main branch for non template repos
     if: |
