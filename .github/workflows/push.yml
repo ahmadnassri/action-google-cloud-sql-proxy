@@ -29,8 +29,6 @@ jobs:
       pull-requests: write
 
   release:
-    timeout-minutes: 5
-
     needs:
       - metadata
       - commit-lint
