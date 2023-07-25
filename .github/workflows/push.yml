@@ -37,6 +37,7 @@ jobs:
     permissions:
       contents: write
       packages: write
+      pull-requests: write
 
     uses: ahmadnassri/actions/.github/workflows/semantic-release.yml@master
     with:
