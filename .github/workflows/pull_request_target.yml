@@ -16,10 +16,8 @@ jobs:
     uses: ahmadnassri/actions/.github/workflows/metadata.yml@master
 
   auto-merge:
-    needs: template-sync
     secrets: inherit
     uses: ahmadnassri/actions/.github/workflows/auto-merge.yml@master
-
     permissions:
       contents: write
       pull-requests: write

@@ -34,16 +34,13 @@ jobs:
       - lint-commits
       - lint-content
 
-    # only runs on main branch for non template repos
-    if: |
-      needs.metadata.outputs.repository_is_template == 'false' &&
-      needs.metadata.outputs.repository_default_branch == github.ref_name
-
     permissions:
       contents: write
       packages: write
 
     uses: ahmadnassri/actions/.github/workflows/semantic-release.yml@master
+    with:
+      repository_default_branch: ${{ needs.metadata.outputs.repository_default_branch }}
 
   alias:
     needs: release
