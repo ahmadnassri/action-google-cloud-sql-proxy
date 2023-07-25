@@ -12,9 +12,6 @@ concurrency:
 permissions: read-all
 
 jobs:
-  metadata:
-    uses: ahmadnassri/actions/.github/workflows/metadata.yml@master
-
   auto-merge:
     secrets: inherit
     uses: ahmadnassri/actions/.github/workflows/auto-merge.yml@master
