@@ -8,55 +8,14 @@ on:
   - push
   - workflow_dispatch
 
-concurrency:
-  group: ${{ github.ref }}-${{ github.workflow }}
-
 permissions: read-all
 
 jobs:
-  metadata:
-    uses: ahmadnassri/actions/.github/workflows/metadata.yml@master
-
-  lint-commits:
-    uses: ahmadnassri/actions/.github/workflows/lint-commits.yml@master
-
-  lint-content:
-    uses: ahmadnassri/actions/.github/workflows/lint-documentation.yml@master
-
+  main:
+    uses: ahmadnassri/actions/.github/workflows/push-action-composite.yml@master
+    secrets: inherit
     permissions:
       contents: write
       statuses: write
-      pull-requests: write
-
-  release:
-    needs:
-      - metadata
-      - lint-commits
-      - lint-content
-
-    permissions:
-      contents: write
       packages: write
       pull-requests: write
-
-    uses: ahmadnassri/actions/.github/workflows/semantic-release.yml@master
-    with:
-      repository_default_branch: ${{ needs.metadata.outputs.repository_default_branch }}
-
-  alias:
-    needs: release
-
-    if: ${{ needs.release.outputs.published == 'true' }}
-
-    permissions:
-      contents: write
-
-    strategy:
-      matrix:
-        alias:
-          - version: v${{ needs.release.outputs.release-version-major }}
-          - version: v${{ needs.release.outputs.release-version-major }}.${{ needs.release.outputs.release-version-minor }}
-
-    uses: ahmadnassri/actions/.github/workflows/alias-tag.yml@master
-    with:
-      name: ${{ matrix.alias.version }}
