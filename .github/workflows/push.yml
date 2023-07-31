@@ -8,14 +8,8 @@ on:
   - push
   - workflow_dispatch
 
-permissions: read-all
-
 jobs:
   main:
     uses: ahmadnassri/actions/.github/workflows/push-action-composite.yml@master
     secrets: inherit
-    permissions:
-      contents: write
-      statuses: write
-      packages: write
-      pull-requests: write
+    permissions: write-all
