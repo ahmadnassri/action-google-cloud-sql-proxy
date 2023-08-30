@@ -5,7 +5,7 @@
 services:
   # ---- mega-linter ---- #
   lint:
-    image: oxsecurity/megalinter-documentation:v7.2.1
+    image: oxsecurity/megalinter-documentation:v7.3.0
     volumes:
       - ./:/tmp/lint
     environment:
