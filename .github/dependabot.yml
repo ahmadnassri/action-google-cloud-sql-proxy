@@ -1,2 +1,6 @@
+# ------------------------------------------------------- #
+# Note: this file originates in template-action-composite #
+# ------------------------------------------------------- #
+
 version: 2
-updates:
+updates: []
