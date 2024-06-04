@@ -8,10 +8,14 @@ branding:
 inputs:
   key:
     description: Service Account JSON Key
-    required: true
+    required: false
+
+  token:
+    description: Service Account OIDC Token
+    required: false
 
   connection:
-    description: CloudSQL connection name
+    description: CloudSQL instance connection name, e.g. project:region:instance
     required: true
 
   port:
@@ -21,7 +25,7 @@ inputs:
   version:
     description: CloudSQL Proxy Version
     required: false
-    default: 1.22.0-alpine
+    default: 2.11.3
 
   sleep:
     description: time between connection checks
@@ -40,12 +44,13 @@ runs:
       run: mkdir /tmp/action-google-cloud-sql-proxy
       shell: bash
 
-    - name: "sql-proxy: write key to file"
+    - name: "sql-proxy: write key to file if provided"
+      if: ${{ inputs.key != '' }}
       run: echo '${{ inputs.key }}' > /tmp/action-google-cloud-sql-proxy/key.json
       shell: bash
 
     - name: "sql-proxy: start container"
-      run: ${{ github.action_path }}/scripts/proxy.sh ${{ inputs.version }} ${{ inputs.port }} ${{ inputs.connection }}
+      run: ${{ github.action_path }}/scripts/proxy.sh ${{ inputs.version }} ${{ inputs.port }} ${{ inputs.connection }} ${{ inputs.token }}
       shell: bash
 
     - name: "sql-proxy: wait for connection"
