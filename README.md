@@ -35,14 +35,17 @@ jobs:
 
 | input      | required | default         | description                                                        |
 |------------|----------|-----------------|--------------------------------------------------------------------|
-| key        | ✓        | `-`             | Service Account JSON Key                                           |
+| key        | x        | `-`             | Service Account JSON Key                                           |
+| token      | x        | `-`             | Service Account OIDC token (if using OIDC authn)                   |
 | connection | ✓        | `-`             | Cloud SQL connection name                                          |
 | port       | ✓        | `-`             | *Listening port (MySQL: 3306, PostgreSQL: 5432, SQL Server: 1433)* |
 | version    | ✗        | `1.22.0-alpine` | Cloud SQL Proxy [Version][]                                        |
 | sleep      | ✗        | `3`             | time between connection checks                                     |
-| attempts   | ✗        | `10`            | number of total connection checks                                  |
+| attempts   | x        | `10`            | number of total connection checks                                  |
 
   [Version]: https://github.com/GoogleCloudPlatform/cloudsql-proxy/releases
+
+Note: One of `key` or `token` is required for authentication.
 
 ----
 > Author: [Ahmad Nassri](https://www.ahmadnassri.com/) &bull;

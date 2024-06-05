@@ -2,20 +2,33 @@
 set -euo pipefail
 
 PORT="${2}"
-CONNECTION="${3}"
+INSTANCE_CONNECTION_NAME="${3}"
+TOKEN="${4:-null}"
 DIR="/tmp/action-google-cloud-sql-proxy"
-IMAGE="gcr.io/cloudsql-docker/gce-proxy:${1}"
+IMAGE="gcr.io/cloud-sql-connectors/cloud-sql-proxy:${1}"
 
-# start container
-docker run \
-  --detach \
-  --net host \
-  --restart on-failure \
-  --name cloud-sql-proxy \
-  --publish "${PORT}:${PORT}" \
-  --volume "${DIR}:${DIR}" \
-  "${IMAGE}" \
-  /cloud_sql_proxy \
-  -dir "${DIR}" \
-  -credential_file "${DIR}/key.json" \
-  -instances="${CONNECTION}=tcp:${PORT}"
+if [ $TOKEN = "null" ]; then
+  # use credential file
+  docker run \
+    --detach \
+    --net host \
+    --restart on-failure \
+    --name cloud-sql-proxy \
+    --publish "${PORT}:${PORT}" \
+    --volume "${DIR}:${DIR}" \
+    "${IMAGE}" \
+    ${INSTANCE_CONNECTION_NAME} \
+    --credentials-file "${DIR}/key.json"
+else
+  # use token
+  docker run \
+    --detach \
+    --net host \
+    --restart on-failure \
+    --name cloud-sql-proxy \
+    --publish "${PORT}:${PORT}" \
+    --volume "${DIR}:${DIR}" \
+    "${IMAGE}" \
+    ${INSTANCE_CONNECTION_NAME} \
+    --token "${TOKEN}"
+fi
