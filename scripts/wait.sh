@@ -19,8 +19,5 @@ for (( ATTEMPT=1; ATTEMPT<=$ATTEMPTS; ATTEMPT++ )); do
   echo "connection not available, sleeping for ${SLEEP} seconds. Recent container logs:"
   docker logs --timestamps --since=${SLEEP}s cloud-sql-proxy
 
-  # Debug
-  cat /tmp/action-google-cloud-sql-proxy/key.json
-
   sleep "${SLEEP}"
 done

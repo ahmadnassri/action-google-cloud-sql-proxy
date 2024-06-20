@@ -45,7 +45,7 @@ jobs:
 
   [Version]: https://github.com/GoogleCloudPlatform/cloudsql-proxy/releases
 
-Note: One of `key` or `token` is required for authentication.
+Note: One of `key` or `token` parameters or `GOOGLE_APPLICATION_CREDENTIALS` env var set is required for authentication.
 
 ----
 > Author: [Ahmad Nassri](https://www.ahmadnassri.com/) &bull;
