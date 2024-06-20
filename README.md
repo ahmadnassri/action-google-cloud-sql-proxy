@@ -1,6 +1,6 @@
 # Google Cloud SQL Proxy
 
-run the Google Cloud SQL Proxy in a GitHub Action's context
+Run the Google Cloud SQL Proxy in a GitHub Action's context.
 
 [![license][license-img]][license-url]
 [![release][release-img]][release-url]
@@ -11,8 +11,8 @@ run the Google Cloud SQL Proxy in a GitHub Action's context
 
 ### Prerequisites
 
--   Running Cloud SQL instance with a public IP address
--   Service Account with Role `Cloud SQL Client`
+- Running Cloud SQL instance with a public IP address
+- Service Account with Role `Cloud SQL Client`
 
 ``` yaml
 on:
@@ -35,13 +35,13 @@ jobs:
 
 | input      | required | default         | description                                                        |
 |------------|----------|-----------------|--------------------------------------------------------------------|
-| key        | x        | `-`             | Service Account JSON Key                                           |
-| token      | x        | `-`             | Service Account OIDC token (if using OIDC authn)                   |
+| key        | ✗        | `-`             | Service Account JSON Key                                           |
+| token      | ✗        | `-`             | Service Account OIDC token (if using OIDC authn)                   |
 | connection | ✓        | `-`             | Cloud SQL connection name                                          |
 | port       | ✓        | `-`             | *Listening port (MySQL: 3306, PostgreSQL: 5432, SQL Server: 1433)* |
-| version    | ✗        | `1.22.0-alpine` | Cloud SQL Proxy [Version][]                                        |
+| version    | ✗        | `2.11.3`        | Cloud SQL Proxy [Version][]                                        |
 | sleep      | ✗        | `3`             | time between connection checks                                     |
-| attempts   | x        | `10`            | number of total connection checks                                  |
+| attempts   | ✗        | `10`            | number of total connection checks                                  |
 
   [Version]: https://github.com/GoogleCloudPlatform/cloudsql-proxy/releases
 
