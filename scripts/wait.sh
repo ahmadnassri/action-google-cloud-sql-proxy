@@ -16,7 +16,8 @@ for ATTEMPT in {1..10}; do
     break
   fi
 
-  echo "connection not available, sleeping for ${SLEEP} seconds"
+  echo "connection not available, sleeping for ${SLEEP} seconds. Container logs:"
+  docker logs --timestamps --since=${SLEEP}s cloud-sql-proxy
 
   sleep "${SLEEP}"
 done
