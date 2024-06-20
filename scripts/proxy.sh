@@ -13,19 +13,21 @@ if [ $TOKEN = "null" ]; then
     --detach \
     --restart on-failure \
     --name cloud-sql-proxy \
-    --publish "${PORT}:${PORT}" \
+    --publish "127.0.0.1:${PORT}:${PORT}" \
     --volume "${DIR}:${DIR}" \
     "${IMAGE}" \
-    ${INSTANCE_CONNECTION_NAME} \
-    --credentials-file "${DIR}/key.json"
+    --address=0.0.0.0 \
+    --credentials-file "${DIR}/key.json" \
+    ${INSTANCE_CONNECTION_NAME}
 else
   # use token
   docker run \
     --detach \
     --restart on-failure \
     --name cloud-sql-proxy \
-    --publish "${PORT}:${PORT}" \
+    --publish "127.0.0.1:${PORT}:${PORT}" \
     "${IMAGE}" \
-    ${INSTANCE_CONNECTION_NAME} \
-    --token "${TOKEN}"
+    --address=0.0.0.0 \
+    --token "${TOKEN}" \
+    ${INSTANCE_CONNECTION_NAME}
 fi
