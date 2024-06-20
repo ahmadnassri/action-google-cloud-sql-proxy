@@ -16,9 +16,9 @@ if [ $TOKEN = "null" ]; then
     --publish "127.0.0.1:${PORT}:${PORT}" \
     --volume "${DIR}:${DIR}" \
     "${IMAGE}" \
-    --address=0.0.0.0 \
-    --credentials-file "${DIR}/key.json" \
-    ${INSTANCE_CONNECTION_NAME}
+    ${INSTANCE_CONNECTION_NAME} \
+    --address 0.0.0.0 \
+    --credentials-file "${DIR}/key.json"
 else
   # use token
   docker run \
@@ -27,7 +27,7 @@ else
     --name cloud-sql-proxy \
     --publish "127.0.0.1:${PORT}:${PORT}" \
     "${IMAGE}" \
-    --address=0.0.0.0 \
-    --token "${TOKEN}" \
-    ${INSTANCE_CONNECTION_NAME}
+    ${INSTANCE_CONNECTION_NAME} \
+    --address 0.0.0.0 \
+    --token "${TOKEN}"
 fi
