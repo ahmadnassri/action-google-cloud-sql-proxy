@@ -11,7 +11,6 @@ if [ $TOKEN = "null" ]; then
   # use credential file
   docker run \
     --detach \
-    --net host \
     --restart on-failure \
     --name cloud-sql-proxy \
     --publish "${PORT}:${PORT}" \
@@ -23,11 +22,9 @@ else
   # use token
   docker run \
     --detach \
-    --net host \
     --restart on-failure \
     --name cloud-sql-proxy \
     --publish "${PORT}:${PORT}" \
-    --volume "${DIR}:${DIR}" \
     "${IMAGE}" \
     ${INSTANCE_CONNECTION_NAME} \
     --token "${TOKEN}"
