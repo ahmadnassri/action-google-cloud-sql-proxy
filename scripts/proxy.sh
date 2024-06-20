@@ -10,6 +10,8 @@ IMAGE="gcr.io/cloud-sql-connectors/cloud-sql-proxy:${1}"
 
 if [ $IMPLICIT_CREDENTIALS != "null" ]; then
   echo "Starting proxy using GOOGLE_APPLICATION_CREDENTIALS"
+  # make sure the container user will be permitted to use the JSON key file
+  chmod a+r $GOOGLE_APPLICATION_CREDENTIALS
   docker run \
     --detach \
     --restart on-failure \
