@@ -1,5 +1,5 @@
 name: Google Cloud SQL Proxy Action
-description: run the Google Cloud SQL Proxy in a GitHub Action's context
+description: Run the Google Cloud SQL Proxy in a GitHub Action's context
 
 branding:
   icon: database
