@@ -9,7 +9,7 @@ DIR="/tmp/action-google-cloud-sql-proxy"
 IMAGE="gcr.io/cloud-sql-connectors/cloud-sql-proxy:${1}"
 
 if [ "$TOKEN" != "null" ]; then
-  echo "Starting proxy using token"
+  echo "::notice ::Starting proxy using token"
   docker run \
     --detach \
     --restart on-failure \
@@ -20,7 +20,7 @@ if [ "$TOKEN" != "null" ]; then
     --address 0.0.0.0 \
     --token "${TOKEN}"
 elif [ -e ${DIR}/key.json ]; then
-  echo "Starting proxy using credentials file"
+  echo "::notice ::Starting proxy using credentials file"
   docker run \
     --detach \
     --restart on-failure \
@@ -32,7 +32,7 @@ elif [ -e ${DIR}/key.json ]; then
     --address 0.0.0.0 \
     --credentials-file "${DIR}/key.json"
 elif [ "$IMPLICIT_CREDENTIALS" != "null" ]; then
-  echo "Starting proxy using GOOGLE_APPLICATION_CREDENTIALS"
+  echo "::notice ::Starting proxy using GOOGLE_APPLICATION_CREDENTIALS"
   # make sure the container user will be permitted to use the JSON key file
   chmod a+r "$GOOGLE_APPLICATION_CREDENTIALS"
   docker run \
@@ -46,6 +46,6 @@ elif [ "$IMPLICIT_CREDENTIALS" != "null" ]; then
     --address 0.0.0.0 \
     --credentials-file "${IMPLICIT_CREDENTIALS}"
 else
-  echo "Couldn't find valid credentials!"
+  echo "::error ::Couldn't find valid credentials!"
   exit 1
 fi
