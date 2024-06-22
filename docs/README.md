@@ -34,6 +34,7 @@ jobs:
 | sleep      | ✗        | `3`             | time between connection checks                                     |
 | attempts   | ✗        | `10`            | number of total connection checks                                  |
 
-[version]: https://github.com/GoogleCloudPlatform/cloudsql-proxy/releases
+> [!NOTE]  
+> Note: One of `key` or `token` parameters or `GOOGLE_APPLICATION_CREDENTIALS` env var set is required for authentication.
 
-Note: One of `key` or `token` parameters or `GOOGLE_APPLICATION_CREDENTIALS` env var set is required for authentication.
+[version]: https://github.com/GoogleCloudPlatform/cloudsql-proxy/releases

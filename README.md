@@ -4,8 +4,6 @@ Run the Google Cloud SQL Proxy in a GitHub Action’s context
 
 [![license][license-img]][license-url]
 [![release][release-img]][release-url]
-[![super linter][super-linter-img]][super-linter-url]
-[![semantic][semantic-img]][semantic-url]
 
 ## Usage
 
@@ -43,7 +41,8 @@ jobs:
 | sleep      | ✗        | `3`      | time between connection checks                                     |
 | attempts   | ✗        | `10`     | number of total connection checks                                  |
 
-Note: One of `key` or `token` parameters or `GOOGLE_APPLICATION_CREDENTIALS` env var set is required for authentication.
+> \[!NOTE\]  
+> Note: One of `key` or `token` parameters or `GOOGLE_APPLICATION_CREDENTIALS` env var set is required for authentication.
 
   [Version]: https://github.com/GoogleCloudPlatform/cloudsql-proxy/releases
 
@@ -56,9 +55,3 @@ Note: One of `key` or `token` parameters or `GOOGLE_APPLICATION_CREDENTIALS` env
 
 [release-url]: https://github.com/ahmadnassri/action-google-cloud-sql-proxy/releases
 [release-img]: https://badgen.net/github/release/ahmadnassri/action-google-cloud-sql-proxy
-
-[super-linter-url]: https://github.com/ahmadnassri/action-google-cloud-sql-proxy/actions?query=workflow%3Asuper-linter
-[super-linter-img]: https://github.com/ahmadnassri/action-google-cloud-sql-proxy/workflows/super-linter/badge.svg
-
-[semantic-url]: https://github.com/ahmadnassri/action-google-cloud-sql-proxy/actions?query=workflow%3Arelease
-[semantic-img]: https://badgen.net/badge/📦/semantically%20released/blue
